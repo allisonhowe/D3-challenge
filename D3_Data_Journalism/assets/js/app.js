@@ -15,7 +15,7 @@ var height = svgHeight - margin.top - margin.bottom;
 // Step 2: Create an SVG wrapper, append an SVG group that will hold our chart,
 // and shift the latter by left and top margins.
 var svg = d3
-  .select("body")
+  .select("#scatter")
   .append("svg")
   .attr("width", svgWidth)
   .attr("height", svgHeight);
@@ -36,4 +36,14 @@ d3.csv("../data/data.csv").then(function(csvData) {
   var yLinearScale = d3.scaleLinear()
     .domain([d3.min(csvData, d => d.obesity), d3.max(csvData, d => d.obesity)])
     .range([height, 0]);
+
+
+  var bottomAxis = d3.axisBottom(xLinearScale);
+  var leftAxis = d3.axisLeft(yLinearScale);
+
+  // Add bottomAxis
+  chartGroup.append("g").attr("transform", `translate(0, ${height})`).call(bottomAxis);
+
+  // Add leftAxis to the left side of the display
+  chartGroup.append("g").call(leftAxis);
 })
