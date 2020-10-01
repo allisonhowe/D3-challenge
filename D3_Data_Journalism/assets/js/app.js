@@ -23,7 +23,7 @@ var svg = d3
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-d3.csv("../data/data.csv").then(function(csvData) {
+d3.csv("assets/data/data.csv").then(function(csvData) {
   csvData.forEach(function(data) {
     data.obesity = +data.obesity;
     data.income = +data.income;
@@ -46,4 +46,13 @@ d3.csv("../data/data.csv").then(function(csvData) {
 
   // Add leftAxis to the left side of the display
   chartGroup.append("g").call(leftAxis);
+
+  var circlesGroup = chartGroup.selectAll("circle")
+    .data(csvData)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xLinearScale(d.income))
+    .attr("cy", d => yLinearScale(d.obesity))
+    .attr("r", "5")
+    .attr("fill", "red");
 })
