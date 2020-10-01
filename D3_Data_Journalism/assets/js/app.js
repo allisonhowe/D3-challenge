@@ -53,6 +53,6 @@ d3.csv("assets/data/data.csv").then(function(csvData) {
     .append("circle")
     .attr("cx", d => xLinearScale(d.income))
     .attr("cy", d => yLinearScale(d.obesity))
-    .attr("r", "5")
-    .attr("fill", "red");
+    .attr("r", "7")
+    .attr("fill", "lightblue");
 })
