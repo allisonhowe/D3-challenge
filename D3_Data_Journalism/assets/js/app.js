@@ -68,8 +68,8 @@ d3.csv("assets/data/data.csv").then(function(csvData) {
     .append("circle")
     .attr("cx", d => xLinearScale(d.income))
     .attr("cy", d => yLinearScale(d.obesity))
-    .attr("r", "7")
-    .attr("fill", "lightblue");
+    .attr("r", "9")
+    .attr("fill", "cadetblue");
 
   chartGroup.append('g')
     .selectAll("text")
@@ -78,8 +78,8 @@ d3.csv("assets/data/data.csv").then(function(csvData) {
     .append("text")
     .attr("x", d => xLinearScale(d.income))
     .attr("y", d => yLinearScale(d.obesity))
-    .attr("font-size", "10")
-    .attr("fill", "black")
+    .attr("font-size", "9")
+    .attr("fill", "white")
     .attr("dx", "-0.7em")
     .attr("dy", "0.4em")
     .text(d => d.abbr);
@@ -88,14 +88,15 @@ d3.csv("assets/data/data.csv").then(function(csvData) {
   var toolTip = d3.select("#scatter").append("div")
     .attr("class", "tooltip");
 
-  // Add an onmouseover event to display a tooltip
+  // Bonus 2: Add an onmouseover event to display a tooltip
   circlesGroup.on("mouseover", function(d) {
     toolTip.style("display", "block");
-    toolTip.style("background-color", "black");
+    toolTip.style("background-color", "dimgrey");
     toolTip.style("color", "white");
     toolTip.style("opacity", "1");
     toolTip.style("text-align", "center");
-    toolTip.html(`${d.state} <br> Obesity: ${d.obesity} <br> Income: ${d.income}`)
+    toolTip.style("font-size", "11px");
+    toolTip.html(`${d.state} <br> Obesity: ${d.obesity}% <br> Income: $${d.income}`)
       .style("left", (xLinearScale(d.income) + 80) + "px")
       .style("top", (yLinearScale(d.obesity) + 20) + "px");
   })
