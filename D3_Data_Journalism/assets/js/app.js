@@ -47,7 +47,22 @@ d3.csv("assets/data/data.csv").then(function(csvData) {
   // Add leftAxis to the left side of the display
   chartGroup.append("g").call(leftAxis);
 
-  var circlesGroup = chartGroup.selectAll("circle")
+  // Create axes labels
+  chartGroup.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - margin.left)
+    .attr("x", 0 - (height / 2))
+    .attr("dy", "1em")
+    .attr("class", "axisText")
+    .text("Obesity");
+
+  chartGroup.append("text")
+    .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
+    .attr("class", "axisText")
+    .text("Income");
+
+  // Add points on the graph
+  chartGroup.selectAll("circle")
     .data(csvData)
     .enter()
     .append("circle")
@@ -55,4 +70,14 @@ d3.csv("assets/data/data.csv").then(function(csvData) {
     .attr("cy", d => yLinearScale(d.obesity))
     .attr("r", "7")
     .attr("fill", "lightblue");
+
+  chartGroup.selectAll("text")
+    .data(csvData)
+    .enter()
+    .append("text")
+    .attr("x", d => xLinearScale(d.income))
+    .attr("y", d => yLinearScale(d.obesity))
+    .attr("font-size", "20px")
+    .attr("fill", "black")
+    .text(d => d.abbr);
 })
