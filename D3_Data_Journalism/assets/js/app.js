@@ -62,7 +62,7 @@ d3.csv("assets/data/data.csv").then(function(csvData) {
     .text("Income");
 
   // Add points on the graph
-  chartGroup.selectAll("circle")
+  var circlesGroup = chartGroup.selectAll("circle")
     .data(csvData)
     .enter()
     .append("circle")
@@ -71,13 +71,37 @@ d3.csv("assets/data/data.csv").then(function(csvData) {
     .attr("r", "7")
     .attr("fill", "lightblue");
 
-  chartGroup.selectAll("text")
+  chartGroup.append('g')
+    .selectAll("text")
     .data(csvData)
     .enter()
     .append("text")
     .attr("x", d => xLinearScale(d.income))
     .attr("y", d => yLinearScale(d.obesity))
-    .attr("font-size", "20px")
+    .attr("font-size", "10")
     .attr("fill", "black")
+    .attr("dx", "-0.7em")
+    .attr("dy", "0.4em")
     .text(d => d.abbr);
+
+  // Step 1: Append a div to the body to create tooltips, assign it a class
+  // =======================================================
+  var toolTip = d3.select("#scatter").append("div")
+    .attr("class", "tooltip");
+
+  // Step 2: Add an onmouseover event to display a tooltip
+  // ========================================================
+  circlesGroup.on("mouseover", function(d) {
+    toolTip.style("display", "block");
+    toolTip.style("background-color", "black");
+    toolTip.style("color", "white");
+    toolTip.style("opacity", "1");
+    toolTip.html(`${d.state} <br> Obesity: ${d.obesity} <br> Income: ${d.income}`)
+      .style("left", d3.event.pageX + "px")
+      .style("top", d3.event.pageY + "px");
+  })
+  // Step 3: Add an onmouseout event to make the tooltip invisible
+  .on("mouseout", function() {
+    toolTip.style("display", "none");
+  });
 })
