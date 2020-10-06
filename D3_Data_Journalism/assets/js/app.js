@@ -1,4 +1,4 @@
-// Step 1: Set up our chart
+// Set up chart
 var svgWidth = 960;
 var svgHeight = 500;
 
@@ -12,7 +12,7 @@ var margin = {
 var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
 
-// Step 2: Create an SVG wrapper, append an SVG group that will hold our chart,
+// Create an SVG wrapper, append an SVG group that will hold chart,
 // and shift the latter by left and top margins.
 var svg = d3
   .select("#scatter")
@@ -84,23 +84,22 @@ d3.csv("assets/data/data.csv").then(function(csvData) {
     .attr("dy", "0.4em")
     .text(d => d.abbr);
 
-  // Step 1: Append a div to the body to create tooltips, assign it a class
-  // =======================================================
+  // Append a div to the body to create tooltips, assign it a class
   var toolTip = d3.select("#scatter").append("div")
     .attr("class", "tooltip");
 
-  // Step 2: Add an onmouseover event to display a tooltip
-  // ========================================================
+  // Add an onmouseover event to display a tooltip
   circlesGroup.on("mouseover", function(d) {
     toolTip.style("display", "block");
     toolTip.style("background-color", "black");
     toolTip.style("color", "white");
     toolTip.style("opacity", "1");
+    toolTip.style("text-align", "center");
     toolTip.html(`${d.state} <br> Obesity: ${d.obesity} <br> Income: ${d.income}`)
-      .style("left", d3.event.pageX + "px")
-      .style("top", d3.event.pageY + "px");
+      .style("left", (xLinearScale(d.income) + 80) + "px")
+      .style("top", (yLinearScale(d.obesity) + 20) + "px");
   })
-  // Step 3: Add an onmouseout event to make the tooltip invisible
+  // Add an onmouseout event to make the tooltip invisible
   .on("mouseout", function() {
     toolTip.style("display", "none");
   });
