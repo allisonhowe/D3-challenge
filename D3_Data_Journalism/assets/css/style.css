@@ -11,7 +11,13 @@ html {
 
 body {
   /* Padding bottom by footer height */
-  padding-bottom: 80px;
+  padding-bottom: 100px;
+  padding-top: 30px;
+}
+
+#scatter {
+  padding-bottom: 40px;
+  padding-top: 30px;
 }
 
 #footer {

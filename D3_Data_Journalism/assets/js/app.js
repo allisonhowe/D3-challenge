@@ -95,7 +95,7 @@ d3.csv("assets/data/data.csv").then(function(csvData) {
   var toolTip = d3.select("#scatter").append("div")
     .attr("class", "tooltip");
 
-  // Bonus 2: Add an onmouseover event to display a tooltip
+  // Add an onmouseover event to display a tooltip
   circlesGroup.on("mouseover", function(d) {
     toolTip.style("display", "block");
     toolTip.style("background-color", "dimgrey");

@@ -37,7 +37,7 @@
 
 .chart {
   display: block;
-  margin: 0;
+  margin: 20;
 }
 
 .d3-tip {
