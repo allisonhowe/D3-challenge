@@ -29,14 +29,19 @@ d3.csv("assets/data/data.csv").then(function(csvData) {
     data.income = +data.income;
   });
 
+  var minIncome = d3.min(csvData, d => d.income);
+  var maxIncome = d3.max(csvData, d => d.income);
+
   var xLinearScale = d3.scaleLinear()
-    .domain([d3.min(csvData, d => d.income), d3.max(csvData, d => d.income)])
+    .domain([minIncome - (minIncome / 10), maxIncome + (maxIncome / 10)])
     .range([0, width]);
 
-  var yLinearScale = d3.scaleLinear()
-    .domain([d3.min(csvData, d => d.obesity), d3.max(csvData, d => d.obesity)])
-    .range([height, 0]);
+  var minObesity = d3.min(csvData, d => d.obesity);
+  var maxObesity = d3.max(csvData, d => d.obesity);
 
+  var yLinearScale = d3.scaleLinear()
+    .domain([minObesity - (minObesity /10), maxObesity + (maxObesity / 10)])
+    .range([height, 0]);
 
   var bottomAxis = d3.axisBottom(xLinearScale);
   var leftAxis = d3.axisLeft(yLinearScale);
@@ -51,14 +56,16 @@ d3.csv("assets/data/data.csv").then(function(csvData) {
   chartGroup.append("text")
     .attr("transform", "rotate(-90)")
     .attr("y", 0 - margin.left)
-    .attr("x", 0 - (height / 2))
+    .attr("x", 0 - (height / 1.5))
     .attr("dy", "1em")
     .attr("class", "axisText")
-    .text("Obesity");
+    .attr("font-size", "18")
+    .text("Population Obesity Rate");
 
   chartGroup.append("text")
     .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
     .attr("class", "axisText")
+    .attr("font-size", "18")
     .text("Income");
 
   // Add points on the graph
@@ -96,11 +103,11 @@ d3.csv("assets/data/data.csv").then(function(csvData) {
     toolTip.style("opacity", "1");
     toolTip.style("text-align", "center");
     toolTip.style("font-size", "11px");
-    toolTip.html(`${d.state} <br> Obesity: ${d.obesity}% <br> Income: $${d.income}`)
+    toolTip.html(`${d.state} <br> Obesity Rate: ${d.obesity}% <br> Income: $${d.income}`)
       .style("left", (xLinearScale(d.income) + 80) + "px")
       .style("top", (yLinearScale(d.obesity) + 20) + "px");
   })
-  // Add an onmouseout event to make the tooltip invisible
+  // Add an onmouseover event to make the tooltip invisible
   .on("mouseout", function() {
     toolTip.style("display", "none");
   });
